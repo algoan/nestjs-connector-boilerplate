@@ -25,6 +25,7 @@ module.exports = {
       {
         allowEmpty: true,
       }
-    ]
+    ],
+    'nestjs/use-validation-pipe': 'off'
   }
 };
