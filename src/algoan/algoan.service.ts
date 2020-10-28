@@ -1,6 +1,8 @@
 import { Algoan, EventName } from '@algoan/rest';
 import { Injectable, OnModuleInit, InternalServerErrorException } from '@nestjs/common';
+import { utilities } from 'nest-winston';
 import { config } from 'node-config-ts';
+import { format, transports } from 'winston';
 
 /**
  * Algoan service
@@ -17,6 +19,9 @@ export class AlgoanService implements OnModuleInit {
    * Fetch services and creates subscription
    */
   public async onModuleInit(): Promise<void> {
+    const defaultLevel: string = process.env.DEBUG_LEVEL ?? 'info';
+    const nodeEnv: string | undefined = process.env.NODE_ENV;
+
     /**
      * Retrieve service accounts and get/create subscriptions
      */
@@ -24,6 +29,19 @@ export class AlgoanService implements OnModuleInit {
       baseUrl: config.algoan.baseUrl,
       clientId: config.algoan.clientId,
       clientSecret: config.algoan.clientSecret,
+      loggerOptions: {
+        format:
+          nodeEnv === 'production' ? format.json() : format.combine(format.timestamp(), utilities.format.nestLike()),
+        level: defaultLevel,
+        transports: [
+          new transports.Console({
+            level: defaultLevel,
+            stderrLevels: ['error'],
+            consoleWarnLevels: ['warning'],
+            silent: nodeEnv === 'test',
+          }),
+        ],
+      },
     });
 
     if (config.eventList?.length <= 0) {
