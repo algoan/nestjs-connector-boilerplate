@@ -2,6 +2,8 @@
   <a href="http://algoan.com/" target="blank"><img src="https://media.licdn.com/dms/image/C4E0BAQH-hIlc5g9g7w/company-logo_200_200/0?e=2159024400&v=beta&t=j5y9KO1P22GsMx3vBNawrpvyvjD2iyBWGeVPUsRkn5s" width="320" alt="Algoan Logo" /></a>
 </p>
 
+![Run Build and tests](https://github.com/algoan/nestjs-connector-boilerplate/workflows/Run%20Build%20and%20tests/badge.svg?branch=master&event=push)
+
 # Algoan NestJS connector boilerplate
 
 A simple NestJS boilerplate written using [nestjs](https://github.com/nestjs/nest) to connect your service.
