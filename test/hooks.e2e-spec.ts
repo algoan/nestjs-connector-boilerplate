@@ -1,6 +1,8 @@
 import { INestApplication, HttpStatus } from '@nestjs/common';
+import * as nock from 'nock';
 import * as request from 'supertest';
-import { buildFakeApp } from './utils/app';
+import { buildFakeApp, fakeAlgoanBaseUrl } from './utils/app';
+import { fakeAPI } from './utils/fake-server';
 
 describe('HooksController (e2e)', () => {
   let app: INestApplication;
@@ -47,7 +49,42 @@ describe('HooksController (e2e)', () => {
     });
 
     it('HK004 - should be ok', async () => {
-      return request(app.getHttpServer())
+      const fakePatchSubEvent: nock.Scope = fakeAPI({
+        baseUrl: fakeAlgoanBaseUrl,
+        method: 'patch',
+        result: { status: 'PROCESSED' },
+        path: '/v1/subscriptions/1/events/random',
+      });
+
+      await request(app.getHttpServer())
+        .post('/hooks')
+        .send({
+          subscription: {
+            id: '1',
+            target: 'http://',
+            status: 'ACTIVE',
+            eventName: 'example',
+          },
+          id: 'random',
+          index: 1,
+          time: Date.now(),
+          payload: {
+            banksUserId: 'banks_user_id',
+            applicationId: 'app_id',
+          },
+        })
+        .expect(HttpStatus.NO_CONTENT);
+    });
+
+    it('HK005 - should be failed - event not handled', async () => {
+      const fakePatchSubEvent: nock.Scope = fakeAPI({
+        baseUrl: fakeAlgoanBaseUrl,
+        method: 'patch',
+        result: { status: 'FAILED' },
+        path: '/v1/subscriptions/1/events/random',
+      });
+
+      await request(app.getHttpServer())
         .post('/hooks')
         .send({
           subscription: {
