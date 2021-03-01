@@ -28,6 +28,7 @@ server.use(jsonServer.bodyParser);
 // Use default router
 server.use(
   jsonServer.rewriter({
+    '/v1/*': '/$1',
     '/v2/*': '/$1',
     '/customers/:customerId/:resource/*': '/:resource/$3',
   }),
