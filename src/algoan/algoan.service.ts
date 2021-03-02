@@ -29,6 +29,7 @@ export class AlgoanService implements OnModuleInit {
       baseUrl: config.algoan.baseUrl,
       clientId: config.algoan.clientId,
       clientSecret: config.algoan.clientSecret,
+      version: 2,
       loggerOptions: {
         format:
           nodeEnv === 'production' ? format.json() : format.combine(format.timestamp(), utilities.format.nestLike()),
