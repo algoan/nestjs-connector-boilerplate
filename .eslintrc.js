@@ -26,6 +26,7 @@ module.exports = {
         allowEmpty: true,
       }
     ],
-    'nestjs/use-validation-pipe': 'off'
+    'nestjs/use-validation-pipe': 'off',
+    'class-methods-use-this': 'off'
   }
 };
