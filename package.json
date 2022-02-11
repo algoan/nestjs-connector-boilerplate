@@ -21,7 +21,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "test:e2e:cov": "npm run test:e2e --coverage"
+    "test:e2e:cov": "npm run test:e2e --coverage",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@algoan/nestjs-http-exception-filter": "^1.0.12",
@@ -53,7 +54,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.8.0",
     "eslint-plugin-nestjs": "^1.2.3",
-    "husky": "^7.0.4",
+    "husky": "^7.0.0",
     "jest": "^27.5.1",
     "json-server": "^0.17.0",
     "lint-staged": "^12.3.3",
@@ -93,11 +94,5 @@
     "{src,test}/**/*.ts": [
       "prettier --list-different \"{src,test}/**/*.ts\""
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   }
 }
