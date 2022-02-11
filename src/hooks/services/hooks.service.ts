@@ -17,9 +17,8 @@ export class HooksService {
    * @param signature Signature headers, to check if the call is from Algoan
    */
   public async handleWebhook(event: EventDTO, signature: string): Promise<void> {
-    const serviceAccount:
-      | ServiceAccount
-      | undefined = this.algoanService.algoanClient.getServiceAccountBySubscriptionId(event.subscription.id);
+    const serviceAccount: ServiceAccount | undefined =
+      this.algoanService.algoanClient.getServiceAccountBySubscriptionId(event.subscription.id);
 
     if (serviceAccount === undefined) {
       throw new UnauthorizedException(`No service account found for subscription ${event.subscription.id}`);
@@ -33,7 +32,7 @@ export class HooksService {
       return;
     }
 
-    if (!subscription.validateSignature(signature, (event.payload as unknown) as { [key: string]: string })) {
+    if (!subscription.validateSignature(signature, event.payload as unknown as { [key: string]: string })) {
       throw new UnauthorizedException('Invalid X-Hub-Signature: you cannot call this API');
     }
 
