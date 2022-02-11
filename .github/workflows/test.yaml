@@ -30,4 +30,4 @@ jobs:
       # Run unit tests
       - run: npm run test
       # Run functional tests with coverage
-      - run: npm run test:cov
+      - run: npm run test:e2e:cov
